@@ -4,7 +4,7 @@ from PhaseII import Motor_Design_2__interface
 from PhaseIII import Motor_Design_3__interface
 
 print(' ')
-print('Welcome To TeslaDream V1.0')
+print('Welcome To TeslaDream V1.1')
 print(' ')
 print('''  There is something within me that might be illusion ''')
 print('''  as it is often case with young delighted people, but if ''')
