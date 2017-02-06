@@ -13,7 +13,7 @@ class PhaseII_(object):
             self.Reqs, self.Size,self.P = {},{},{}
 
         # *these variables initialized, but not set!
-        
+
     def TranslateToPhase2(self,Last):
 
         Reqs1,Size1 = Last
@@ -26,7 +26,7 @@ class PhaseII_(object):
         return Reqs2,Size2
 
     def Interface(self):
-        
+
         def printMenu():
             print(' ')
             print('- Main Menu:')
@@ -44,10 +44,10 @@ class PhaseII_(object):
             print(' ')
             for i,j in dictionary.items():
                 print('  ',i,'=',j)
-    
+
         print("Welcome to Phase II")
         printMenu()
-        
+
         while True:
             user = input('--> ')
             valid=0
@@ -61,33 +61,33 @@ class PhaseII_(object):
                             print(' ')
                             print('Reccomend that you run Phase I first!')
                             print(' ')
-                            
+
                             poles =  int(input("# Poles        = "))
                             phases=  int(input("# Phases       = "))
-                            
+
                             V1 =   float(input("Input Voltage  = "))
                             Is  =  float(input("Stator Current = "))
                             Ns  =  float(input("Stator Turns   = "))
-                            
+
                             print(' ')
                             tau =  float(input("Maximum Torque = "))
                             rpm =  float(input("Max Torque RPM = "))
                             rad =  rpm*n.pi/30 # rad/s
-                            
+
                             self.Reqs={'Nph' :phases, 'Npo' :poles, 'V1':V1,'Is':Ns,'Is':Is, 'omega_e':rad, 'PeakT':tau}
                             print(' ')
                             Ag_D =  float(input("Stator ID (mm)  = "))/1000    # mm -> m
-                            Ag_L =  float(input("Motor Length(mm)= "))/1000    # mm -> m 
+                            Ag_L =  float(input("Motor Length(mm)= "))/1000    # mm -> m
                             self.Size={'Ag_D':Ag_D, 'Ax_L':Ag_L }
-                             
+
                         except ValueError:
                             print(' ')
                             print('Something went wrong. Try again!')
                     else:
-                        try:                        
+                        try:
                             V1 =   float(input("Input Voltage  = "))
                             self.Reqs['V1']=V1
-                             
+
                         except ValueError:
                             print(' ')
                             print('Something went wrong. Try again!')
@@ -98,17 +98,17 @@ class PhaseII_(object):
                         printDict(self.Reqs)
                         printDict(self.Size)
                         print(' ')
-                        
+
                         anywhichone = input('--> ')
                         setas       = input('Set to: ')
                         if anywhichone in self.Reqs.keys():
-                            try:                        
+                            try:
                                 self.Reqs[anywhichone]=float(setas)
                             except ValueError:
                                 print(' ')
                                 print('Something went wrong. Try again!')
                         else:
-                            try:                        
+                            try:
                                 self.Size[anywhichone]=float(setas)
                             except ValueError:
                                 print(' ')
@@ -145,14 +145,14 @@ class PhaseII_(object):
                             weights[1] = float(input('Stator Turns    Cost > '))
                             weights[2] = float(input('Wire Density    Cost > '))
                             weights[3] = float(input('High Slip       Cost > '))
-                            weights[3] = float(input('Resistance Rotor Cost> '))
-                            
+                            weights[4] = float(input('Resistance Rotor Cost> '))
+
                         self.P=m().psOpt(self.Reqs,self.Size,weights) # P is an shorthand for performance params
                         printDict(self.P)
 
                     if mode=='gradientdesc' or mode=='grad' or mode=='g':
                         self.P=m().gradOpt(self.Reqs,self.Size,weights)
-                        
+
                 else:
                     print('Requirements not setup yet!')
 
@@ -182,10 +182,10 @@ class PhaseII_(object):
 
             if user=='go3':
                 return self.Reqs,self.Size,self.P
-            
+
             if user=='quit':
                 return False
-            
+
             if user=='help' or user=='?' or user==0:
                 printMenu()
 
@@ -194,5 +194,3 @@ class PhaseII_(object):
                 print('!! You entered an invalid command :/')
 
             printMenu()
-
-        

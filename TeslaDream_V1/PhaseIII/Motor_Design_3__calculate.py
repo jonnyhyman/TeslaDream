@@ -48,42 +48,42 @@ class m():
         #     1,  # Stator Reactance
         #     1,  # Rotor Reactance
         #   ]
-        
+
         def Cost(x,*args):
 
             S,W = args
-            
+
             S['X1']=x[0]
             S['X2']=x[1]
-        
+
             RotorCost  = W[0]*S['X1']
             StatorCost = W[1]*S['X2']
-            
+
             Cost = RotorCost + StatorCost
             return Cost
 
         def Constraint(x,*args):
 
             S,W = args
-            
+
             S['X1']=x[0]
             S['X2']=x[1]
-            
+
             DeltaTorque = self.Tmax(S)-S['PeakT']
 
             return DeltaTorque
 
         # var def:
         #        X1 ,    X2
-        lb =[    1  ,   1 ]
+        lb =[    1  ,   1  ]
         ub =[    50 ,   50 ]
-        
+
         args = S,W
-        
+
         st = time.time()
-        
+
         xopt, fopt = pso(Cost, lb, ub, f_ieqcons=Constraint, args=args)
 
         print('Done! PSO Time = ',time.time()-st,'sec')
-        
+
         return xopt[0],xopt[1]

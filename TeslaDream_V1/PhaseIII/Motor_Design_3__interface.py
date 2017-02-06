@@ -6,7 +6,7 @@ class Interface(object):
     def __init__(self,S):
 
         self.State=S # { 'omega_s',  'Nph', 'V1' , 'R1' , 'X1' , 'X2' , 'PeakT' }
-
+        full=0
         print('Welcome to Phase III!')
 
         self.printMenu()
@@ -46,24 +46,28 @@ class Interface(object):
 
                 weights[0] = float(input('Stator Cost > '))
                 weights[1] = float(input('Rotor Cost  > '))
-                
+
             self.State['X1'],self.State['X2']=m().psOpt(self.State,weights)
+            self.tMax()
             valid=1
+            full =1 # indicates we're done with the optimization process
 
         if user=='d': # super top secret debug / default run function
             valid   = 1
             weights = [-1,-1]
             self.State['X1'],self.State['X2']=m().psOpt(self.State,weights)
             self.tMax()
-            
+            full =1 # indicates we're done with the optimization process
+
         if user=='quit':
-            return False
+            valid=1
+            return self.State
 
         if valid==0:
             print(' ')
             print('!! You entered an invalid command :/')
 
-        self.printMenu() 
+        self.printMenu()
         return True
 
     def seeState(self):
@@ -108,14 +112,14 @@ class Interface(object):
         print('----------------------------------')
 
 class PhaseIII_(object):
-    
+
     def __init__(self,Last):
-        
+
         if not isinstance(Last,bool):
             self.State = self.TranslateToPhase3(Last) # user came from Phase 2
         else:
             self.State={}
-        
+
 
     def TranslateToPhase3(self,Last):
 
@@ -125,13 +129,15 @@ class PhaseIII_(object):
         # P has Ns, s, Topology, WireDensity, + 'Perf','Stator' appended later
 
         omega_s = (2/R['Npo'])*R['omega_e']
-        
+
         State  ={ 'omega_s':omega_s,  'Nph':R['Nph'] , 'V1':R['V1'] , 'R1':P['Perf'][0] , 'X1':1 , 'X2':1 , 'PeakT':R['PeakT']}
 
         return State
-    
+
     def Interface(self):
         I=Interface(self.State)
         ON=True
-        while ON:
+        while ON and isinstance(ON,bool):
             ON=I.parseRedirect()
+
+        return ON
