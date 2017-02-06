@@ -1,4 +1,4 @@
-from .Motor_Design_1__calculate import * 
+from .Motor_Design_1__calculate import *
 import time as time
 import numpy as n
 
@@ -7,7 +7,7 @@ class PhaseI_(object):
 
         self.Reqs={}
         self.Size={}
-        
+
     # ---------------------------------------- Processor Controller
     def Interface(self):
 
@@ -27,10 +27,10 @@ class PhaseI_(object):
             print(' ')
             for i,j in dictionary.items():
                 print('  ',i,'=',j)
-            
+
         print('Welcome to Phase I!')
         printMenu()
-        
+
         while True:
 
             user=input('--> ')
@@ -59,11 +59,11 @@ class PhaseI_(object):
 
                         print('Which of these?')
                         printDict(self.Reqs)
-                        
+
                         anywhichone = input('--> ')
                         setas       = input('Set to: ')
 
-                        try:                        
+                        try:
                             self.Reqs[anywhichone]=float(setas)
                         except ValueError:
                             print(' ')
@@ -92,7 +92,7 @@ class PhaseI_(object):
                     mode = input("'swarm', or 'single'? ")
 
                     if mode=='swarm' or mode=='pso' or mode=='ps':
-                        weights    = [2,1,1,1]
+                        weights    = [100,75,1,1]
                         chgWeights = input("Change weights? 'Yes'/'No' ")
                         if chgWeights=='Yes' or chgWeights=='y' or chgWeights=='Y':
 
@@ -100,10 +100,10 @@ class PhaseI_(object):
                             weights[1] = float(input('Air Gap Axial Length  Cost > '))
                             weights[2] = float(input('Stator Currents Cost       > '))
                             weights[3] = float(input('Stator Turns Cost          > '))
-                            
+
                         self.Size=m().psOpt(self.Reqs,weights)
                         printDict(self.Size)
-                        
+
                     if mode=='single'  or mode=='1':
                         m().singleOpt()
                 else:
@@ -111,11 +111,11 @@ class PhaseI_(object):
 
             if user=='d': # super top secret debug / default run function
                 valid=1
-                weights  = [100,75,50,25]
+                weights  = [100,75,1,1]
                 self.Reqs={'Nph':3 , 'Npo':4 , 'Kr':0.95 , 'PeakT':21 , 'PeakRad':1250*n.pi/30}
                 self.Size=m().psOpt(self.Reqs,weights)
                 printDict(self.Size)
-                
+
             if user=='torque':
                 valid=1
                 if self.Reqs!={} and self.Size!={}:
@@ -123,20 +123,20 @@ class PhaseI_(object):
                     print('Torque =',Torque,'Nm')
                 else:
                     print("Requirements or Size not setup yet!")
-                
+
             if user=='go2':
                 valid=1
                 if self.Reqs!={} and self.Size!={}:
                     return [self.Reqs,self.Size]
                 else:
                     print("Requirements or Size not setup yet!")
-                    
+
             if user=='quit':
                 return False
 
             if user=='help' or user=='?':
                 valid=1
-                
+
             if valid==0:
                 print(' ')
                 print('!! You entered an invalid command :/')
