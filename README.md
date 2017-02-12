@@ -4,6 +4,8 @@
 
 The mission of the Tesla Dream program is to develop open source induction motor design and development tools. From initial sizing estimates to final FEM analysis utilizing electromagnetics.
 
+- To run, just open TeslaDream_Vx_y.py in your favorite Python-compatible command-line/terminal.
+
 For thorough documentation, see the Google Doc: https://goo.gl/lbkntW
 
  This program is free software: you can redistribute it and/or modify
